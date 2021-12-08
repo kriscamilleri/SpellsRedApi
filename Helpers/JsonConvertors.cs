@@ -20,10 +20,6 @@ namespace SpellsRedApi
             }
             return new List<T> { token.ToObject<T>() };
         }
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 
@@ -41,8 +37,36 @@ namespace SpellsRedApi
                 List<RowClass> result = new List<RowClass>();
                 if (token.Any(c => c.Type == JTokenType.Array))
                 {
-                    var mergedRows = token.Where(c => c.Type == JTokenType.Array).Select(c =>  c.ToObject<RowClass>());
-                    result.AddRange(mergedRows);
+                    List<RowClass> fromStringChildren = token
+                        .Where(c => c.Children().Any(d => d.Type == JTokenType.String))
+                        .Select(c => c.Children()
+                            .Where(d => d.Type == JTokenType.String)
+                                .Select(d => d.ToObject<string>() ?? "")
+                                .ToList())
+                        .ToList()
+                        //.Select(c=> string.Join(" | ", c))
+                        .Select(c=> new RowClass()
+                        {
+                            TextArray = c
+                        })
+                        .ToList();
+                    var objectChildren = token
+                        .Where(c => c.Children().Any(d => d.Type == JTokenType.Object))
+                        .SelectMany(c => c.Children()
+                            .Where(d => d.Type == JTokenType.Object)
+                                .Select(d => d.Type == JTokenType.String ? new RowClass() { Text = d.ToString() } :  d.ToObject<RowClass>() ?? new RowClass())
+                                .ToList())
+                        .ToList();
+
+
+                    if(fromStringChildren.Count > 0)
+                    {
+                        result.AddRange(fromStringChildren);
+                    }
+                    if (objectChildren.Count > 0)
+                    {
+                        result.AddRange(objectChildren);
+                    }
                 }
                 else
                 {
@@ -51,10 +75,6 @@ namespace SpellsRedApi
                 return result;
             }
             return new List<string>();
-        }
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -98,15 +118,36 @@ namespace SpellsRedApi
                 if (keys.Count(k => tableProps.Contains(k)) == tableProps.Count())
                 {
                     var spellEntryList = token.ToObject<SpellEntryTable>();
-                    var parsedRows = string.Join(" ", spellEntryList.Rows.Select(c=>c.Roll.Exact.HasValue ? $"[Roll {c.Roll.Exact}]" : $"[Roll {c.Roll.Min} - {c.Roll.Min}]"));
+                    string parsedRow = "";
+                    foreach(var row in spellEntryList?.Rows ?? new List<RowClass>())
+                    {
+                        if(row.TextArray != null && row.TextArray.Count() > 0)
+                        {
+                            var joinedText = string.Join(" || ", row.TextArray);
+                            parsedRow += $"<br> {joinedText} ";
+                        }
+                        if(row.Roll != null)
+                        {
+                            if (row.Roll.Exact.HasValue)
+                            {
+                                parsedRow += $"<br> [Roll { row.Roll.Exact}] ";
+                            }
+                            if (row.Roll.Min.HasValue && row.Roll.Max.HasValue)
+                            {
+                                parsedRow += $"[Roll {row.Roll.Min} - {row.Roll.Min}]";
+                            }
+                        }
+                        if (row.Text != null && row.Text.Length > 0)
+                        {
+                            parsedRow += row.Text;
+                        }
+                    }
                     var SpellEntry = new SpellEntry()
                     {
-                        String = parsedRows
+                        String = parsedRow
                     };
                     return SpellEntry;
                 }
-
-
 
                 return new SpellEntry()
                 {
@@ -115,7 +156,6 @@ namespace SpellsRedApi
 
             }
 
-
             if (reader.ValueType == typeof(string))
             {
                 return new SpellEntry()
@@ -123,35 +163,8 @@ namespace SpellsRedApi
                     String = token.ToString()
                 };
             }
-            else if (reader.ValueType == typeof(SpellEntryUIList))
-            {
-                return new SpellEntry()
-                {
-                    String = string.Join("& ", token.ToObject<SpellEntryUIList>().Items.Select(c => string.Join("& ", c.Entries.Select(d => string.Join("& ", d.Select(c => c)))).ToArray()))
-                };
-            }
-            else if (reader.ValueType == typeof(SpellEntryItem))
-            {
-                return new SpellEntry()
-                {
-                    String = string.Join("& ", token.ToObject<SpellEntryItem>().Entries.Select(c => c.String))
-                };
-            }
-            else if (objectType == typeof(SpellEntryTable))
-            {
-                return new SpellEntry()
-                {
-                    //String = string.Join("& ", token.ToObject<SpellEntryTable>().Rows.Select(c => string.Join("&", c.Select(c => string.Join("& ", c.Select(c => c))))))
-                };
-            }
+           
             return "";
-
-        }
-
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -223,11 +236,6 @@ namespace SpellsRedApi
             }
             return token.ToObject<SpellEntryUIListItem>();
 
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
         }
     }
 }

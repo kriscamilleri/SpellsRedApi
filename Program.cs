@@ -105,7 +105,7 @@ app.MapGet("/legacyspell/{repository}", (string repository) =>
     using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
     {
         var spells = store.GetCollection<Spell>().AsQueryable();
-        results = spells.Select(spell => new LegacySpell(spell)).ToArray();
+        results = spells.Select((spell, i) => new LegacySpell(spell, i)).ToArray();
     }
     return Results.Json(results, jsonOptions);
 })
