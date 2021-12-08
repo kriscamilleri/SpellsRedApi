@@ -1,21 +1,18 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kris\\Development\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj": {}
+    "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kris\\Development\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj": {
+    "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kris\\Development\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj",
+        "projectUniqueName": "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj",
         "projectName": "SpellsRedApi",
-        "projectPath": "C:\\Users\\Kris\\Development\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj",
+        "projectPath": "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\SpellsRedApi.csproj",
         "packagesPath": "C:\\Users\\Kris\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kris\\Development\\SpellsRedApi\\SpellsRedApi\\obj\\",
+        "outputPath": "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Kris\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -25,7 +22,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/prettyneat-io/index.json": {}
         },
         "frameworks": {
           "net6.0": {

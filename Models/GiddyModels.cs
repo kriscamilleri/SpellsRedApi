@@ -91,7 +91,7 @@ namespace SpellsRedApi.Models.Giddy
         public List<string> AreaTags { get; set; }
         public Classes Classes { get; set; }
         public List<Background> Backgrounds { get; set; }
-        public List<EntriesHigherLevel> EntriesHigherLevel { get; set; }
+        public List<SpellEntry> EntriesHigherLevel { get; set; }
         public List<Race> Races { get; set; }
         public Meta Meta { get; set; }
         public List<Background> EldritchInvocations { get; set; }

@@ -86,3 +86,4 @@ C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositorie
 C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-phb.json
 C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-xge.json
 C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spellsall.json
+C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\legacy.json

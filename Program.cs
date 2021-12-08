@@ -1,5 +1,7 @@
 using JsonFlatFileDataStore;
 using SpellsRedApi;
+using SpellsRedApi.Models.Giddy;
+using SpellsRedApi.Models.Legacy;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -19,7 +21,8 @@ if (app.Environment.IsDevelopment())
 
 var jsonOptions = new JsonSerializerOptions()
 {
-    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 };
 
 app.MapPut("/repository", async (string name, string source, HttpRequest req) =>

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpellsRedApi.Models.Giddy;
 
 namespace SpellsRedApi
 {
@@ -19,6 +20,11 @@ namespace SpellsRedApi
                 return token.ToObject<List<T>>();
             }
             return new List<T> { token.ToObject<T>() };
+        }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -76,6 +82,11 @@ namespace SpellsRedApi
             }
             return new List<string>();
         }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class SpellEntryParser : JsonConverter
@@ -113,6 +124,16 @@ namespace SpellsRedApi
                     };
                     return SpellEntry;
                 }
+                var ItemProps = GetRequiredAttribues(typeof(SpellEntryItem));
+                if (keys.Count(k => ItemProps.Contains(k)) == ItemProps.Count())
+                {
+                    var spellEntryList = token.ToObject<SpellEntryItem>();
+                    var SpellEntry = new SpellEntry()
+                    {
+                        String = $"{spellEntryList?.Name ?? ""}: {string.Join(" ", spellEntryList?.Entries.Select(c => string.Join("& ", c.String)) ?? new List<string>())}"
+                    };
+                    return SpellEntry;
+                 }
 
                 var tableProps = GetRequiredAttribues(typeof(SpellEntryTable));
                 if (keys.Count(k => tableProps.Contains(k)) == tableProps.Count())
@@ -165,6 +186,11 @@ namespace SpellsRedApi
             }
            
             return "";
+        }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -236,6 +262,11 @@ namespace SpellsRedApi
             }
             return token.ToObject<SpellEntryUIListItem>();
 
+        }
+
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
