@@ -39,7 +39,7 @@ namespace SpellsRedApi.Models.Giddy
     public partial class SpellEntryUIListItem
     {
         public string Type { get; set; }
-        public string Name { get; set; }
+        public List<string> Name { get; set; }
         public List<string> Entries { get; set; }
     }
 
@@ -83,7 +83,7 @@ namespace SpellsRedApi.Models.Giddy
 
         public List<SpellEntry> Entries { get; set; }
 
-        [Newtonsoft.Json.JsonConverter(typeof(ElementConverter<ScalingLevelDiceUnion>))]
+        [Newtonsoft.Json.JsonConverter(typeof(SingleToListConverter<ScalingLevelDiceUnion>))]
         public List<ScalingLevelDiceUnion>? ScalingLevelDice { get; set; }
         public List<string> DamageInflict { get; set; }
         public List<string> SavingThrow { get; set; }
@@ -173,12 +173,17 @@ namespace SpellsRedApi.Models.Giddy
     public partial class DurationDuration
     {
         public string Type { get; set; }
-        public long Amount { get; set; }
+        public long? Amount { get; set; }
         public bool? UpTo { get; set; }
     }
 
     public partial class PurpleEntry
     {
+        public List<string> TableHeaders { get; set; }
+        public List<List<string>> TableRows { get; set; }
+        public string AtHigherLevelsString { get; set; }
+        public List<string> ListHeaders { get; set; }
+        public List<string> ListItems { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
         public List<EntryEntryUnion> Entries { get; set; }
@@ -239,6 +244,7 @@ namespace SpellsRedApi.Models.Giddy
     {
         public string Type { get; set; }
         public Distance Distance { get; set; }
+
     }
 
     public partial class Distance
@@ -264,8 +270,8 @@ namespace SpellsRedApi.Models.Giddy
     public partial class Time
     {
         public long Number { get; set; }
-        public string Unit { get; set; }
-        public string Condition { get; set; }
+        public string? Unit { get; set; }
+        public string? Condition { get; set; }
     }
 
     public partial struct Srd
@@ -318,7 +324,6 @@ namespace SpellsRedApi.Models.Giddy
     {
         public PurpleEntry PurpleEntry;
         public string String;
-
         public static implicit operator SpellEntry(PurpleEntry PurpleEntry) => new SpellEntry { PurpleEntry = PurpleEntry };
         public static implicit operator SpellEntry(string String) => new SpellEntry { String = String };
     }

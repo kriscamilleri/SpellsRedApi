@@ -13,7 +13,6 @@ C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-aitfr-avt.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-all.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-egw.json
-C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-ftd.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-ggr.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-idrotf.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-llk.json
@@ -87,3 +86,4 @@ C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositorie
 C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spells-xge.json
 C:\Users\Kris\Development\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\spellsall.json
 C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\legacy.json
+C:\LocalProjects\SpellsRedApi\SpellsRedApi\bin\Debug\net6.0\Repositories\FTD.json

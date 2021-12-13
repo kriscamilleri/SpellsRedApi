@@ -2,6 +2,7 @@ using JsonFlatFileDataStore;
 using SpellsRedApi;
 using SpellsRedApi.Models.Giddy;
 using SpellsRedApi.Models.Legacy;
+using SpellsRedApi.Models.Red;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -113,6 +114,20 @@ app.MapGet("/legacyspell/{repository}", (string repository) =>
     return Results.Json(results, jsonOptions);
 })
 .WithName("GetLegacySpells");
+
+app.MapGet("/redspell/{repository}", (string repository) =>
+{
+    string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
+
+    RedSpell[] results = Array.Empty<RedSpell>();
+    using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
+    {
+        var spells = store.GetCollection<Spell>().AsQueryable();
+        results = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
+    }
+    return Results.Json(results, jsonOptions);
+})
+.WithName("GetRedSpells");
 
 
 app.MapGet("/spell/{repository}/{spell}", (string repository, string spell) =>

@@ -4,9 +4,7 @@ using SpellsRedApi.Models.Giddy;
 
 namespace SpellsRedApi
 {
-
-
-    public class ElementConverter<T> : JsonConverter
+    public class SingleToListConverter<T> : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -47,11 +45,11 @@ namespace SpellsRedApi
                         .Where(c => c.Children().Any(d => d.Type == JTokenType.String))
                         .Select(c => c.Children()
                             .Where(d => d.Type == JTokenType.String)
-                                .Select(d => d.ToObject<string>() ?? "")
+                                .Select(d => d.ToObject<string>() ?? "") 
                                 .ToList())
                         .ToList()
                         //.Select(c=> string.Join(" | ", c))
-                        .Select(c=> new RowClass()
+                        .Select(c => new RowClass()
                         {
                             TextArray = c
                         })
@@ -60,12 +58,12 @@ namespace SpellsRedApi
                         .Where(c => c.Children().Any(d => d.Type == JTokenType.Object))
                         .SelectMany(c => c.Children()
                             .Where(d => d.Type == JTokenType.Object)
-                                .Select(d => d.Type == JTokenType.String ? new RowClass() { Text = d.ToString() } :  d.ToObject<RowClass>() ?? new RowClass())
+                                .Select(d => d.Type == JTokenType.String ? new RowClass() { Text = d.ToString() } : d.ToObject<RowClass>() ?? new RowClass())
                                 .ToList())
                         .ToList();
 
 
-                    if(fromStringChildren.Count > 0)
+                    if (fromStringChildren.Count > 0)
                     {
                         result.AddRange(fromStringChildren);
                     }
@@ -118,36 +116,60 @@ namespace SpellsRedApi
                 if (keys.Count(k => listProps.Contains(k)) == listProps.Count())
                 {
                     var spellEntryList = token.ToObject<SpellEntryUIList>();
-                    var SpellEntry = new SpellEntry()
+                    var spellEntry = new SpellEntry()
                     {
-                        String = string.Join(" ", spellEntryList.Items.Select(c => string.Join("& ", c.Entries)))
+                        String = string.Join(" ", spellEntryList.Items.Select(c => string.Join("& ", c.Entries))),
+                        PurpleEntry = new PurpleEntry()
+                        {
+                            Type = spellEntryList.Type,
+                            ListItems = spellEntryList.Items.SelectMany(c => c.Entries).ToList(),
+                            ListHeaders = spellEntryList.Items.SelectMany(c => c.Name != null ? c.Name : new List<string>()).ToList()
+                        }
                     };
-                    return SpellEntry;
+                    return spellEntry;
                 }
                 var ItemProps = GetRequiredAttribues(typeof(SpellEntryItem));
                 if (keys.Count(k => ItemProps.Contains(k)) == ItemProps.Count())
                 {
                     var spellEntryList = token.ToObject<SpellEntryItem>();
-                    var SpellEntry = new SpellEntry()
+                    var spellEntry = new SpellEntry()
                     {
+                        PurpleEntry = new PurpleEntry()
+                        {
+                            AtHigherLevelsString = spellEntryList?.Name == "At Higher Levels" ? $"{ string.Join(" ", spellEntryList?.Entries.Select(c => string.Join("& ", c.String)) ?? new List<string>()) }" : string.Empty,
+                            Name = spellEntryList?.Name ?? string.Empty,
+                            ListItems = spellEntryList?.Entries.Select(c => string.Join("& ", c.String)).ToList() ?? new List<string>()
+                        },
                         String = $"{spellEntryList?.Name ?? ""}: {string.Join(" ", spellEntryList?.Entries.Select(c => string.Join("& ", c.String)) ?? new List<string>())}"
                     };
-                    return SpellEntry;
-                 }
+                    return spellEntry;
+                }
 
                 var tableProps = GetRequiredAttribues(typeof(SpellEntryTable));
                 if (keys.Count(k => tableProps.Contains(k)) == tableProps.Count())
                 {
                     var spellEntryList = token.ToObject<SpellEntryTable>();
                     string parsedRow = "";
-                    foreach(var row in spellEntryList?.Rows ?? new List<RowClass>())
+                    var headers = spellEntryList?.ColLabels ?? new List<string>();
+                    var bodyListOfLists = new List<List<string>>();
+                    var safeSpellEntryList = spellEntryList.Rows.Where(c => c.TextArray != null && c.TextArray.Count >= headers.Count);
+                    for (var i = 0; i < headers.Count; i++)
                     {
-                        if(row.TextArray != null && row.TextArray.Count() > 0)
+                        if(spellEntryList != null)
+                        {
+                            var list = safeSpellEntryList.Select(c => c.TextArray[i]).ToList();
+                            bodyListOfLists.Add(list);
+                        }
+                    }
+                    foreach (var row in spellEntryList?.Rows ?? new List<RowClass>())
+                    {
+
+                        if (row.TextArray != null && row.TextArray.Count() > 0)
                         {
                             var joinedText = string.Join(" || ", row.TextArray);
                             parsedRow += $"<br> {joinedText} ";
                         }
-                        if(row.Roll != null)
+                        if (row.Roll != null)
                         {
                             if (row.Roll.Exact.HasValue)
                             {
@@ -165,7 +187,14 @@ namespace SpellsRedApi
                     }
                     var SpellEntry = new SpellEntry()
                     {
-                        String = parsedRow
+                        String = parsedRow,
+                        PurpleEntry = new PurpleEntry()
+                        {
+                            ListItems = spellEntryList.Rows.SelectMany(c=> c.TextArray != null ? c.TextArray : new List<string>() { c.Text }).ToList(),
+                            Type = spellEntryList.Type,
+                            TableHeaders = headers,
+                            TableRows = bodyListOfLists
+                        }
                     };
                     return SpellEntry;
                 }
@@ -184,7 +213,7 @@ namespace SpellsRedApi
                     String = token.ToString()
                 };
             }
-           
+
             return "";
         }
 
@@ -241,17 +270,18 @@ namespace SpellsRedApi
                     var children = jArray.Children().Select(c => c.ToObject<SpellEntryItem>());
                     var keys = children.Select(c => c.Type);
                     var tableProps = GetRequiredAttribues(typeof(SpellEntryItem));
-                    var result = 
+                    var result =
                      new List<SpellEntryUIListItem> {
                                     new SpellEntryUIListItem()
                                     {
                                         Type = "list-item",
+                                        Name = children.Select(c=>c.Name).ToList(),
                                         Entries =  children.Select(c=> string.Join(", ",c.Entries.Select(d=> d.String))).ToList()
                                     }
                                  };
                     return result;
                 }
-             
+
                 return new List<SpellEntryUIListItem> {
                     new SpellEntryUIListItem()
                     {

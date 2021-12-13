@@ -28,15 +28,15 @@ namespace SpellsRedApi.Models.Legacy
             TextInfo textInfo = new CultureInfo("en-GB", false).TextInfo;
 
             this.Id = id;
+            setLevel(spell);
             this.Name = spell.Name;
-            this.Level = spell.Level == 0 ? "Cantrip" : $"{spell.Level.ToString()} Level";
             this.Material = nullIfEmpty(spell.Components.M?.String ?? "");
             this.Page = $"{spell.Source} {spell.Page}";
             this.Range =  textInfo.ToTitleCase($"{spell.Range?.Distance?.Amount ?? null} {spell.Range?.Distance?.Type ?? null} ({spell.Range?.Type ?? ""})".Trim());
             this.Desc = string.Join(" <br> ", spell.Entries.Select(c => c.String));
             this.Casting = textInfo.ToTitleCase($"{spell.Time[0].Number} {spell.Time[0].Unit}");
             this.Higher = nullIfEmpty(string.Join(" <br> ", spell.EntriesHigherLevel?.Select(c => c.String.Replace("At Higher Levels: ", "")) ?? new List<string>()));
-            this.School = spell.School;
+            setSchool(spell);
             this.Class = string.Join(", ", spell.Classes?.FromClassList?.Select(c => c.Name)
                 ?? spell.Classes?.FromClassListVariant?.Select(c => c.Name)
                 ?? spell.Classes?.FromSubclass?.Select(c => c.Class.Name)
@@ -44,7 +44,7 @@ namespace SpellsRedApi.Models.Legacy
             this.Ritual = spell.Meta?.Ritual;
             this.Conc = spell.Duration[0].Concentration;
             this.Duration = textInfo.ToTitleCase(spell.Duration[0]?.Duration != null ? $"{spell.Duration[0].Duration.Amount} {spell.Duration[0].Duration.Type}" : spell.Duration[0].Type);
-            this.Components = string.Join(",",
+            this.Components = string.Join(", ",
                 new List<string>() {
                     spell.Components.V.HasValue ? "V" : string.Empty,
                     spell.Components.S.HasValue ? "S" : string.Empty,
@@ -54,7 +54,62 @@ namespace SpellsRedApi.Models.Legacy
             );
 
         }
+        
+        private void setSchool(Spell spell)
+        {
+            var school = spell.School;
+            switch (spell.School)
+            {
+                case "A":
+                    school = "Abjuration";
+                    break;
+                case "B":
+                    school = "Divination";
+                    break;
+                case "C":
+                    school = "Enchantment";
+                    break;
+                case "D":
+                    school = "Conjuration";
+                    break;
+                case "E":
+                    school = "Abjuration";
+                    break;
+                case "F":
+                    school = "Evocation";
+                    break;
+                case "G":
+                    school = "Illusion";
+                    break;
+                case "H":
+                    school = "Necromancy";
+                    break;
+                case "I":
+                    school = "Transmutation";
+                    break;
+            }
+            this.School = school;
+        }
 
+        private void setLevel(Spell spell) {
+            var suffix = "";
+            switch (spell.Level % 10)
+            {
+                case 1:
+                    suffix = "st";
+                    break;
+                case 2:
+                    suffix = "nd";
+                    break;
+                case 3:
+                    suffix = "rd";
+                    break;
+                default:
+                    suffix = "th";
+                    break;
+            }
+            this.Level = spell.Level == 0 ? "Cantrip" : $"{spell.Level}{suffix} Level";
+        }
 
         private string? nullIfEmpty(string? value)
         {
@@ -65,7 +120,7 @@ namespace SpellsRedApi.Models.Legacy
             return value;
         }
 
-        private bool IsPropertyExist(dynamic settings, string name)
+        private bool isPropertyExist(dynamic settings, string name)
         {
             return ((Type)settings.GetType()).GetProperties().Where(p => p.Name.Equals(name)).Any();
         }
