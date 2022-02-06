@@ -4,6 +4,7 @@ using SpellsRedApi.Models.Giddy;
 using SpellsRedApi.Models.Legacy;
 using SpellsRedApi.Models.Red;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -25,6 +26,8 @@ var jsonOptions = new JsonSerializerOptions()
     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 };
+
+jsonOptions.Converters.Add(new JsonStringEnumConverter());
 
 app.MapPut("/repository", async (string name, string source, HttpRequest req) =>
 {
@@ -120,7 +123,7 @@ app.MapGet("/redspell/{repository}", (string repository) =>
     string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
 
     RedSpell[] results = Array.Empty<RedSpell>();
-    using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
+    using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
     {
         var spells = store.GetCollection<Spell>().AsQueryable();
         results = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();

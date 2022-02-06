@@ -1,5 +1,6 @@
 ﻿using SpellsRedApi.Models.Giddy;
 using System.Globalization;
+using System.Text.Json.Serialization;
 using static SpellsRedApi.Models.Red.Description;
 
 namespace SpellsRedApi.Models.Red
@@ -33,6 +34,37 @@ namespace SpellsRedApi.Models.Red
             }
         }
 
+    }
+
+    public enum ClassType
+    {
+        Base,
+        Variant,
+        Subclass
+    }
+
+    public class Class
+    {
+        public string BaseClass { get; set; }
+        public string Source { get; set; }
+        public ClassType ClassType { get; set; }
+
+        public string? VariantSource { get; set; }
+        public string? SubClass { get; set; }
+
+        public string DisplayName
+        {
+            get => string.IsNullOrWhiteSpace(SubClass)
+                  ? $"{this.BaseClass}"
+                  : $"{this.BaseClass} ({this.SubClass})";
+        }
+
+        public Class(string baseClass, string source, ClassType classType = ClassType.Base)
+        {
+            BaseClass = baseClass;
+            Source = source;
+            ClassType = classType;
+        }
     }
 
     public class Range
@@ -104,9 +136,9 @@ namespace SpellsRedApi.Models.Red
         public int Page { get; set; }
         public int Level { get; set; }
         public string School { get; set; }
-        public List<string> Class { get; set; }
         public bool? IsRitual { get; set; }
         public bool? IsConcentration { get; set; }
+        public List<Class> Classes { get; set; }
         public Range Range { get; set; }
         public Duration Duration { get; set; }
         public Casting Casting { get; set; }
@@ -118,14 +150,12 @@ namespace SpellsRedApi.Models.Red
 
         public RedSpell(Spell spell, int id = 0)
         {
-            TextInfo textInfo = new CultureInfo("en-GB", false).TextInfo;
-
             this.Id = id;
             this.Name = spell.Name;
             this.Page = (int)spell.Page;
             this.IsRitual = spell.Meta?.Ritual;
             this.IsConcentration = spell.Duration[0].Concentration;
-            setClass(spell);
+            setClasses(spell);
             setSchool(spell);
             setLevel(spell);
             setComponents(spell);
@@ -146,7 +176,7 @@ namespace SpellsRedApi.Models.Red
                     Paragraph = spell.EntriesHigherLevel.Select(c => c.String).ToList()
                 };
             }
-            
+
         }
 
         private void setDescription(Spell spell)
@@ -156,18 +186,18 @@ namespace SpellsRedApi.Models.Red
                 .SelectMany(c => c.PurpleEntry.ListItems)
                 .ToList();
 
-            List<string>? listHeaders = 
-                spell.Entries.Any(c => c.PurpleEntry != null && c.PurpleEntry.ListHeaders != null && c.PurpleEntry.ListHeaders.Count() > 0) 
+            List<string>? listHeaders =
+                spell.Entries.Any(c => c.PurpleEntry != null && c.PurpleEntry.ListHeaders != null && c.PurpleEntry.ListHeaders.Count() > 0)
                 ? spell.Entries
                     .Where(c => c.PurpleEntry != null && c.PurpleEntry.ListHeaders != null && c.PurpleEntry.ListHeaders.Count() > 0)
                     .SelectMany(c => c.PurpleEntry.ListHeaders)
-                    .ToList() 
+                    .ToList()
                 : null;
 
             DescriptionList? list = null;
             if (listRows.Count > 0)
             {
-                 list = new DescriptionList(listRows);
+                list = new DescriptionList(listRows);
                 list.Headers = listHeaders;
             }
 
@@ -212,12 +242,31 @@ namespace SpellsRedApi.Models.Red
             this.Casting.Condition = spell.Time[0].Condition;
         }
 
-        private void setClass(Spell spell)
+        private void setClasses(Spell spell)
         {
-            this.Class = spell.Classes?.FromClassList?.Select(c => c.Name).ToList()
-                          ?? spell.Classes?.FromClassListVariant?.Select(c => c.Name).ToList()
-                          ?? spell.Classes?.FromSubclass?.Select(c => c.Class.Name).ToList()
-                          ?? new List<string>();
+            this.Classes = new List<Class>();
+            var classes = spell.Classes?.FromClassList?.Select(c =>
+                            new Class(c.Name, c.Source, ClassType.Base))
+                            .ToList() ?? new List<Class>();
+
+            var subClasses = spell.Classes?.FromSubclass?.Select(c =>
+                            new Class(c.Class.Name, c.Class.Source, ClassType.Subclass)
+                            {
+                                VariantSource = c.Subclass.Source,
+                                SubClass = c.Subclass.Name
+                            })
+                            .ToList() ?? new List<Class>();
+
+            var variants = spell.Classes?.FromClassListVariant?.Select(c =>
+                            new Class(c.Name, c.Source, ClassType.Variant)
+                            {
+                                VariantSource = c.DefinedInSource,
+                            })
+                            .ToList() ?? new List<Class>();
+
+            this.Classes.AddRange(classes);
+            this.Classes.AddRange(subClasses);
+            this.Classes.AddRange(variants);
         }
 
         private void setRange(Spell spell)
@@ -296,4 +345,5 @@ namespace SpellsRedApi.Models.Red
         }
 
     }
+
 }
