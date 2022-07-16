@@ -12,9 +12,17 @@ IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettin
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
+
 
 var app = builder.Build();
 app.UseHttpsRedirection();
+
+app.UseCors(builder => builder
+ .AllowAnyOrigin()
+ .AllowAnyMethod()
+ .AllowAnyHeader());
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

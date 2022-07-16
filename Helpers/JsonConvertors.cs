@@ -118,7 +118,7 @@ namespace SpellsRedApi
                     var spellEntryList = token.ToObject<SpellEntryUIList>();
                     var spellEntry = new SpellEntry()
                     {
-                        String = string.Join(" ", spellEntryList.Items.Select(c => string.Join("& ", c.Entries))),
+                       // String = string.Join(" ", spellEntryList.Items.Select(c => string.Join("& ", c.Entries))),
                         PurpleEntry = new PurpleEntry()
                         {
                             Type = spellEntryList.Type,
@@ -140,7 +140,7 @@ namespace SpellsRedApi
                             Name = spellEntryList?.Name ?? string.Empty,
                             ListItems = spellEntryList?.Entries.Select(c => string.Join("& ", c.String)).ToList() ?? new List<string>()
                         },
-                        String = $"{spellEntryList?.Name ?? ""}: {string.Join(" ", spellEntryList?.Entries.Select(c => string.Join("& ", c.String)) ?? new List<string>())}"
+                        //String = $"{spellEntryList?.Name ?? ""}: {string.Join(" ", spellEntryList?.Entries.Select(c => string.Join("& ", c.String)) ?? new List<string>())}"
                     };
                     return spellEntry;
                 }
@@ -161,36 +161,36 @@ namespace SpellsRedApi
                             bodyListOfLists.Add(list);
                         }
                     }
-                    foreach (var row in spellEntryList?.Rows ?? new List<RowClass>())
-                    {
+                    //foreach (var row in spellEntryList?.Rows ?? new List<RowClass>())
+                    //{
 
-                        if (row.TextArray != null && row.TextArray.Count() > 0)
-                        {
-                            var joinedText = string.Join(" || ", row.TextArray);
-                            parsedRow += $"<br> {joinedText} ";
-                        }
-                        if (row.Roll != null)
-                        {
-                            if (row.Roll.Exact.HasValue)
-                            {
-                                parsedRow += $"<br> [Roll { row.Roll.Exact}] ";
-                            }
-                            if (row.Roll.Min.HasValue && row.Roll.Max.HasValue)
-                            {
-                                parsedRow += $"[Roll {row.Roll.Min} - {row.Roll.Min}]";
-                            }
-                        }
-                        if (row.Text != null && row.Text.Length > 0)
-                        {
-                            parsedRow += row.Text;
-                        }
-                    }
+                    //    if (row.TextArray != null && row.TextArray.Count() > 0)
+                    //    {
+                    //        var joinedText = string.Join(" || ", row.TextArray);
+                    //        parsedRow += $"<br> {joinedText} ";
+                    //    }
+                    //    if (row.Roll != null)
+                    //    {
+                    //        if (row.Roll.Exact.HasValue)
+                    //        {
+                    //            parsedRow += $"<br> [Roll { row.Roll.Exact}] ";
+                    //        }
+                    //        if (row.Roll.Min.HasValue && row.Roll.Max.HasValue)
+                    //        {
+                    //            parsedRow += $"[Roll {row.Roll.Min} - {row.Roll.Min}]";
+                    //        }
+                    //    }
+                    //    if (row.Text != null && row.Text.Length > 0)
+                    //    {
+                    //        parsedRow += row.Text;
+                    //    }
+                    //}
                     var SpellEntry = new SpellEntry()
                     {
                         String = parsedRow,
                         PurpleEntry = new PurpleEntry()
                         {
-                            ListItems = spellEntryList.Rows.SelectMany(c=> c.TextArray != null ? c.TextArray : new List<string>() { c.Text }).ToList(),
+                            //ListItems = spellEntryList.Rows.SelectMany(c=> c.TextArray != null ? c.TextArray : new List<string>() { c.Text }).ToList(),
                             Type = spellEntryList.Type,
                             TableHeaders = headers,
                             TableRows = bodyListOfLists

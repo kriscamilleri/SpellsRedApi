@@ -33,7 +33,7 @@ namespace SpellsRedApi.Models.Legacy
             this.Material = nullIfEmpty(spell.Components.M?.String ?? "");
             this.Page = $"{spell.Source} {spell.Page}";
             this.Range =  textInfo.ToTitleCase($"{spell.Range?.Distance?.Amount ?? null} {spell.Range?.Distance?.Type ?? null} ({spell.Range?.Type ?? ""})".Trim());
-            this.Desc = string.Join(" <br> ", spell.Entries.Select(c => c.String));
+            this.Desc = string.Join(" <br> ", spell.Entries.Select((c, i) => c.String));
             this.Casting = textInfo.ToTitleCase($"{spell.Time[0].Number} {spell.Time[0].Unit}");
             this.Higher = nullIfEmpty(string.Join(" <br> ", spell.EntriesHigherLevel?.Select(c => c.String.Replace("At Higher Levels: ", "")) ?? new List<string>()));
             setSchool(spell);

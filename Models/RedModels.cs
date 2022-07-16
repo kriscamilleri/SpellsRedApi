@@ -23,14 +23,24 @@ namespace SpellsRedApi.Models.Red
 
         public class DescriptionTable
         {
-            List<string> Headers { get; set; }
+            public List<string> Headers { get; set; }
 
-            List<List<string>> Rows { get; set; }
+            public List<List<string>> Rows { get; set; } = new List<List<string>>();
+
 
             public DescriptionTable(List<string> headers, List<List<string>> rows)
             {
                 Headers = headers;
-                Rows = rows;
+                for(var i = 0; i < rows[0].Count(); i++)
+                {
+                    var list = new List<string>();
+                    for(var hi = 0; hi < headers.Count(); hi++)
+                    {
+                        list.Add(rows[hi][i]);
+                        
+                    }
+                    Rows.Add(list);
+                }
             }
         }
 
@@ -40,7 +50,7 @@ namespace SpellsRedApi.Models.Red
     {
         Base,
         Variant,
-        Subclass
+        Sub
     }
 
     public class Class
@@ -145,6 +155,7 @@ namespace SpellsRedApi.Models.Red
         public Components Components { get; set; }
         public Description Description { get; set; }
         public Description? Higher { get; set; }
+        public string Source { get; set; }
 
         public RedSpell() { }
 
@@ -155,6 +166,7 @@ namespace SpellsRedApi.Models.Red
             this.Page = (int)spell.Page;
             this.IsRitual = spell.Meta?.Ritual;
             this.IsConcentration = spell.Duration[0].Concentration;
+            this.Source = spell.Source;
             setClasses(spell);
             setSchool(spell);
             setLevel(spell);
@@ -169,11 +181,11 @@ namespace SpellsRedApi.Models.Red
         private void setHigher(Spell spell)
         {
 
-            if (spell.EntriesHigherLevel != null && spell.EntriesHigherLevel.Any())
+            if (spell.EntriesHigherLevel != null && spell.EntriesHigherLevel.Any() && spell.EntriesHigherLevel.Any(c=> c != null))
             {
                 this.Higher = new Description()
                 {
-                    Paragraph = spell.EntriesHigherLevel.Select(c => c.String).ToList()
+                    Paragraph = spell.EntriesHigherLevel.Select(c => c.PurpleEntry.AtHigherLevelsString).ToList()
                 };
             }
 
@@ -192,8 +204,11 @@ namespace SpellsRedApi.Models.Red
                     .Where(c => c.PurpleEntry != null && c.PurpleEntry.ListHeaders != null && c.PurpleEntry.ListHeaders.Count() > 0)
                     .SelectMany(c => c.PurpleEntry.ListHeaders)
                     .ToList()
-                : null;
-
+                : spell.Entries
+                    .Where(c => c.PurpleEntry != null && c.PurpleEntry.Name != null)
+                    .Select(c => c.PurpleEntry.Name)
+                    .ToList();
+           
             DescriptionList? list = null;
             if (listRows.Count > 0)
             {
@@ -250,7 +265,7 @@ namespace SpellsRedApi.Models.Red
                             .ToList() ?? new List<Class>();
 
             var subClasses = spell.Classes?.FromSubclass?.Select(c =>
-                            new Class(c.Class.Name, c.Class.Source, ClassType.Subclass)
+                            new Class(c.Class.Name, c.Class.Source, ClassType.Sub)
                             {
                                 VariantSource = c.Subclass.Source,
                                 SubClass = c.Subclass.Name
@@ -296,28 +311,25 @@ namespace SpellsRedApi.Models.Red
                 case "A":
                     school = "Abjuration";
                     break;
-                case "B":
-                    school = "Divination";
-                    break;
                 case "C":
-                    school = "Enchantment";
-                    break;
-                case "D":
                     school = "Conjuration";
                     break;
-                case "E":
-                    school = "Abjuration";
+                case "D":
+                    school = "Divination";
                     break;
-                case "F":
+                case "E":
+                    school = "Enchantment";
+                    break;
+                case "V":
                     school = "Evocation";
                     break;
-                case "G":
+                case "I":
                     school = "Illusion";
                     break;
-                case "H":
+                case "N":
                     school = "Necromancy";
                     break;
-                case "I":
+                case "T":
                     school = "Transmutation";
                     break;
             }
