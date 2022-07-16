@@ -65,7 +65,7 @@ namespace SpellsRedApi.Models.Giddy
         [Newtonsoft.Json.JsonConverter(typeof(SpellRowConverter))]
         public List<RowClass> Rows { get; set; }
     }
-
+    
 
     public partial class Spell
     {

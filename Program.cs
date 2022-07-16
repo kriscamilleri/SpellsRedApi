@@ -21,10 +21,16 @@ app.UseCors(c => c
     .AllowAnyMethod());
 
 app.UseHttpsRedirection();
+
+app.UseCors(builder => builder
+ .AllowAnyOrigin()
+ .AllowAnyMethod()
+ .AllowAnyHeader());
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options => 
+    app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.RoutePrefix = string.Empty;
@@ -78,7 +84,7 @@ app.MapPut("/repository", async (string name, string source, HttpRequest req) =>
 })
 .WithName("CreateRepository");
 
-app.MapGet("/repository",  () =>
+app.MapGet("/repository", () =>
 {
     Repository[] results = Array.Empty<Repository>();
     using (var store = new DataStore($"repositories.json"))
@@ -94,7 +100,7 @@ app.MapGet("/repository/{repository}", (string repository) =>
     Repository[] results = Array.Empty<Repository>();
     using (var store = new DataStore($"repositories.json"))
     {
-        results = store.GetCollection<Repository>().AsQueryable().Where(c=> c.Name == repository).ToArray();
+        results = store.GetCollection<Repository>().AsQueryable().Where(c => c.Name == repository).ToArray();
     }
     return Results.Json(results, jsonOptions);
 })

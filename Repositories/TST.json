@@ -1,0 +1,149 @@
+﻿{
+  "spell": [
+    {
+      "name": "Alter Self",
+      "source": "PHB",
+      "page": 211,
+      "srd": true,
+      "level": 2,
+      "school": "T",
+      "time": [
+        {
+          "number": 1,
+          "unit": "action"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "type": "self"
+        }
+      },
+      "components": {
+        "v": true,
+        "s": true
+      },
+      "duration": [
+        {
+          "type": "timed",
+          "duration": {
+            "type": "hour",
+            "amount": 1
+          },
+          "concentration": true
+        }
+      ],
+      "entries": [
+        "You assume a different form. When you cast the spell, choose one of the following options, the effects of which last for the duration of the spell. While the spell lasts, you can end one option as an action to gain the benefits of a different one.",
+        {
+          "type": "entries",
+          "name": "Aquatic Adaptation",
+          "entries": [
+            "You adapt your body to an aquatic environment, sprouting gills and growing webbing between your fingers. You can breathe underwater and gain a swimming speed equal to your walking speed."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Change Appearance",
+          "entries": [
+            "You transform your appearance. You decide what you look like, including your height, weight, facial features, sound of your voice, hair length, coloration, and distinguishing characteristics, if any. You can make yourself appear as a member of another race, though none of your statistics change. You also can't appear as a creature of a different size than you, and your basic shape stays the same; if you're bipedal, you can't use this spell to become quadrupedal, for instance. At any time for the duration of the spell, you can use your action to change your appearance in this way again."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Natural Weapons",
+          "entries": [
+            "You grow claws, fangs, spines, horns, or a different natural weapon of your choice. Your unarmed strikes deal {@damage 1d6} bludgeoning, piercing, or slashing damage, as appropriate to the natural weapon you chose, and you are proficient with your unarmed strikes. Finally, the natural weapon is magic and you have a +1 bonus to the attack and damage rolls you make using it."
+          ]
+        }
+      ],
+      "damageInflict": [ "bludgeoning", "piercing", "slashing" ],
+      "classes": {
+        "fromClassList": [
+          {
+            "name": "Sorcerer",
+            "source": "PHB"
+          },
+          {
+            "name": "Wizard",
+            "source": "PHB"
+          },
+          {
+            "name": "Artificer",
+            "source": "UAArtificer"
+          },
+          {
+            "name": "Artificer (Revisited)",
+            "source": "UAArtificerRevisited"
+          },
+          {
+            "name": "Artificer",
+            "source": "TCE"
+          }
+        ],
+        "fromSubclass": [
+          {
+            "class": {
+              "name": "Ranger",
+              "source": "PHB"
+            },
+            "subclass": {
+              "name": "Horizon Walker (UA)",
+              "source": "UARangerAndRogue"
+            }
+          },
+          {
+            "class": {
+              "name": "Ranger (Revised)",
+              "source": "UATheRangerRevised"
+            },
+            "subclass": {
+              "name": "Horizon Walker (UA)",
+              "source": "UARangerAndRogue"
+            }
+          },
+          {
+            "class": {
+              "name": "Artificer",
+              "source": "TCE"
+            },
+            "subclass": {
+              "name": "Alchemist",
+              "source": "TCE"
+            }
+          },
+          {
+            "class": {
+              "name": "Druid",
+              "source": "PHB"
+            },
+            "subclass": {
+              "name": "Moon",
+              "source": "PHB"
+            }
+          }
+        ]
+      },
+      "races": [
+        {
+          "name": "Tiefling (Abyssal)",
+          "source": "UAThatOldBlackMagic",
+          "baseName": "Tiefling",
+          "baseSource": "PHB"
+        }
+      ],
+      "backgrounds": [
+        {
+          "name": "Simic Scientist",
+          "source": "GGR"
+        }
+      ],
+      "eldritchInvocations": [
+        {
+          "name": "Master of Myriad Forms",
+          "source": "PHB"
+        }
+      ]
+    }
+  ]
+}
