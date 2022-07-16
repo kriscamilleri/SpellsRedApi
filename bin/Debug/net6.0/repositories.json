@@ -1,9 +1,0 @@
-{
-  "repository": [
-    {
-      "name": "PHB",
-      "path": "C:\\LocalProjects\\SpellsRedApi\\SpellsRedApi\\Repositories\\PHB.json",
-      "source": "https://github.com/5etools-mirror-1/5etools-mirror-1.github.io/blob/master/data/spells/spells-phb.json"
-    }
-  ]
-}

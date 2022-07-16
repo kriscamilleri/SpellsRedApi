@@ -11,15 +11,25 @@ IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettin
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
+
+app.UseCors(c => c
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
+
 app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    app.UseSwaggerUI(options => 
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+};
 
 var jsonOptions = new JsonSerializerOptions()
 {
@@ -95,7 +105,7 @@ app.MapGet("/spell/{repository}", (string repository) =>
     string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
 
     Spell[] results = Array.Empty<Spell>();
-    using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
+    using (var store = new DataStore($"Repositories//{cleanRepository}.json"))
     {
         results = store.GetCollection<Spell>().AsQueryable().ToArray();
     }
@@ -109,7 +119,7 @@ app.MapGet("/legacyspell/{repository}", (string repository) =>
     string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
 
     LegacySpell[] results = Array.Empty<LegacySpell>();
-    using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
+    using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
     {
         var spells = store.GetCollection<Spell>().AsQueryable();
         results = spells.Select((spell, i) => new LegacySpell(spell, i)).ToArray();
