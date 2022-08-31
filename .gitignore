@@ -451,14 +451,7 @@ $RECYCLE.BIN/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-<<<<<<< HEAD
 !.vscode/extensions.json
 
 obj/*
 bin/*
-=======
-!.vscode/extensions.json
-
-obj/*
-bin/*
->>>>>>> 0762a7527b054f7a9d37fd445db62aabc58415b9

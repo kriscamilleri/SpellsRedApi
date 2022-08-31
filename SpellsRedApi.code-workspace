@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Red",
+		"workbench.colorTheme": "Dracula At Night",
 		"workbench.editor.decorations.colors": true
 	}
 }

@@ -3,6 +3,7 @@ using SpellsRedApi;
 using SpellsRedApi.Models.Giddy;
 using SpellsRedApi.Models.Legacy;
 using SpellsRedApi.Models.Red;
+using SpellsRedApi.Routes;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -14,11 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
-
-app.UseCors(c => c
-    .AllowAnyOrigin()
-    .AllowAnyHeader()
-    .AllowAnyMethod());
 
 app.UseHttpsRedirection();
 
@@ -45,125 +41,6 @@ var jsonOptions = new JsonSerializerOptions()
 
 jsonOptions.Converters.Add(new JsonStringEnumConverter());
 
-app.MapPut("/repository", async (string name, string source, HttpRequest req) =>
-{
-    if (!req.HasFormContentType)
-    {
-        return Results.BadRequest();
-    }
-
-    var form = await req.ReadFormAsync();
-    var file = form.Files["file"];
-
-    if (file is null)
-    {
-        return Results.BadRequest();
-    }
-
-    var uploadsPath = configuration["RepositoryPath"];
-    string cleanName = Regex.Replace(name, "[^A-Za-z0-9]", "");
-    var uploads = Path.Combine(uploadsPath, $"{cleanName}.json");
-    await using var fileStream = File.OpenWrite(uploads);
-    await using var uploadStream = file.OpenReadStream();
-    await uploadStream.CopyToAsync(fileStream);
-
-    using (var store = new DataStore($"repositories.json"))
-    {
-        var collection = store.GetCollection<Repository>();
-
-        var results = collection.InsertOne(
-            new Repository
-            {
-                Name = name,
-                Path = uploads,
-                Source = source
-            });
-    }
-
-    return Results.NoContent();
-})
-.WithName("CreateRepository");
-
-app.MapGet("/repository", () =>
-{
-    Repository[] results = Array.Empty<Repository>();
-    using (var store = new DataStore($"repositories.json"))
-    {
-        results = store.GetCollection<Repository>().AsQueryable().ToArray();
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetRepositories");
-
-app.MapGet("/repository/{repository}", (string repository) =>
-{
-    Repository[] results = Array.Empty<Repository>();
-    using (var store = new DataStore($"repositories.json"))
-    {
-        results = store.GetCollection<Repository>().AsQueryable().Where(c => c.Name == repository).ToArray();
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetRepository");
-
-app.MapGet("/spell/{repository}", (string repository) =>
-{
-    string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-
-    Spell[] results = Array.Empty<Spell>();
-    using (var store = new DataStore($"Repositories//{cleanRepository}.json"))
-    {
-        results = store.GetCollection<Spell>().AsQueryable().ToArray();
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetSpells");
-
-
-app.MapGet("/legacyspell/{repository}", (string repository) =>
-{
-    string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-
-    LegacySpell[] results = Array.Empty<LegacySpell>();
-    using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
-    {
-        var spells = store.GetCollection<Spell>().AsQueryable();
-        results = spells.Select((spell, i) => new LegacySpell(spell, i)).ToArray();
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetLegacySpells");
-
-app.MapGet("/redspell/{repository}", (string repository) =>
-{
-    string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-
-    RedSpell[] results = Array.Empty<RedSpell>();
-    using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
-    {
-        var spells = store.GetCollection<Spell>().AsQueryable();
-        results = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetRedSpells");
-
-
-app.MapGet("/spell/{repository}/{spell}", (string repository, string spell) =>
-{
-    string cleanSpell = Regex.Replace(spell, "[^A-Za-z0-9]", "");
-    string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-
-    Spell? results = new Spell();
-    var uploadsPath = configuration["RepositoryPath"];
-
-    using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
-    {
-        results = store.GetCollection<Spell>().AsQueryable().FirstOrDefault(c => c.Name == spell);
-    }
-    return Results.Json(results, jsonOptions);
-})
-.WithName("GetSpell");
-
+var routes = new Routes(app, jsonOptions, configuration["RepositoryPath"]);
 
 app.Run();
