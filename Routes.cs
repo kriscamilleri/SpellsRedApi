@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using JsonFlatFileDataStore;
+using SpellsRedApi.Models;
 using SpellsRedApi.Models.Giddy;
 using SpellsRedApi.Models.Legacy;
 using SpellsRedApi.Models.Red;
@@ -59,6 +60,7 @@ namespace SpellsRedApi.Routes
 
             return Results.NoContent();
         }
+
         async Task<IResult> GetRepositories()
         {
             Repository[] results = Array.Empty<Repository>();
@@ -68,6 +70,7 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
         async Task<IResult> GetRepository(string repository)
         {
             Repository[] results = Array.Empty<Repository>();
@@ -77,6 +80,7 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
         async Task<IResult> GetSpells(string repository)
         {
             string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
@@ -88,6 +92,7 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
         async Task<IResult> GetLegacySpell(string repository)
         {
             string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
@@ -100,6 +105,7 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
         async Task<IResult> GetRedSpells(string repository)
         {
             string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
@@ -112,6 +118,7 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
         async Task<IResult> GetSpell(string repository, string spell)
         {
             string cleanSpell = Regex.Replace(spell, "[^A-Za-z0-9]", "");
@@ -126,6 +133,49 @@ namespace SpellsRedApi.Routes
             }
             return Results.Json(results, jsonOptions);
         }
+
+        async Task<IResult> Login(string email, string pass)
+        {
+            if (email == "kris@test.com" && pass == "1234")
+            {
+                using (var store = new DataStore($"users.json"))
+                {
+                    var collection = store.GetCollection<User>();
+                    var result = collection.Find(c => c.Email == email).First();
+
+                    return Results.Json(result, jsonOptions);
+                }
+            }
+
+            return Results.Json(false, jsonOptions);
+        }
+        
+        async Task<IResult> GetUser(int id)
+        {
+            using (var store = new DataStore($"users.json"))
+            {
+                var collection = store.GetCollection<User>();
+                var result = collection.Find(c => c.Id == id).First();
+
+                return Results.Json(result, jsonOptions);
+            }
+        }
+        
+        async Task<IResult> AddRepoToUser()
+        {
+            return null;
+        }
+
+        async Task<IResult> AddSpellbookToUser()
+        {
+            return null;
+        }
+
+        async Task<IResult> AddRepositoryToUser()
+        {
+            return null;
+        }
+
         public void Map()
         {
 
