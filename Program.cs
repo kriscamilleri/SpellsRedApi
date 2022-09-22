@@ -1,5 +1,6 @@
 using JsonFlatFileDataStore;
 using SpellsRedApi;
+using SpellsRedApi.Api;
 using SpellsRedApi.Models.Giddy;
 using SpellsRedApi.Models.Legacy;
 using SpellsRedApi.Models.Red;
@@ -41,6 +42,7 @@ var jsonOptions = new JsonSerializerOptions()
 
 jsonOptions.Converters.Add(new JsonStringEnumConverter());
 
-var routes = new Routes(app, jsonOptions, configuration["RepositoryPath"]);
+new Routes(app, jsonOptions, configuration["RepositoryPath"]).SetRoutes();
+new UserApi(app, jsonOptions, configuration["RepositoryPath"]).SetRoutes();
 
 app.Run();
