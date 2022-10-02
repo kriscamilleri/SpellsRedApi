@@ -3,7 +3,6 @@ using System.Text.Json;
 using JsonFlatFileDataStore;
 using SpellsRedApi.Models;
 using SpellsRedApi.Models.Giddy;
-
 namespace SpellsRedApi.Api
 {
     public class UserApi : IApi
@@ -14,7 +13,7 @@ namespace SpellsRedApi.Api
         IResult GetUser(int id)
         {
             User result = new User();
-            using (var store = new DataStore($"users.json"))
+            using (var store = new DataStore($"Repositories/users.json"))
             {
                 result = store.GetCollection<User>().AsQueryable().First(c => c.Id == id);
             }
@@ -23,7 +22,7 @@ namespace SpellsRedApi.Api
 
         public override void SetRoutes()
         {
-            _app.MapGet("/user/{id}", GetUser);
+            _app.MapGet("/user/{id}", GetUser).RequireAuthorization();
         }
 
     }

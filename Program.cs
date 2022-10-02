@@ -1,28 +1,67 @@
-using JsonFlatFileDataStore;
-using SpellsRedApi;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Logging;
 using SpellsRedApi.Api;
-using SpellsRedApi.Models.Giddy;
-using SpellsRedApi.Models.Legacy;
-using SpellsRedApi.Models.Red;
 using SpellsRedApi.Routes;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(options =>
+           {
+               options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+           }).AddJwtBearer(o =>
+           {
+               if (builder.Environment.IsDevelopment())
+               {
+                   o.RequireHttpsMetadata = false;
+               }
+               o.Authority = configuration["Jwt:Authority"];
+               o.Audience = configuration["Jwt:Audience"];
+               o.Events = new JwtBearerEvents()
+               {
+                //    OnTokenValidated = c =>
+                //    {
+                //        c.Success();
+                //        return c.Response.CompleteAsync();
+                //    },
+                   OnAuthenticationFailed = c =>
+                   {
+                       c.NoResult();
+
+                       c.Response.StatusCode = 500;
+                       c.Response.ContentType = "text/plain";
+                       if (builder.Environment.IsDevelopment())
+                       {
+                           return c.Response.WriteAsync(c.Exception.ToString());
+                       }
+                       return c.Response.WriteAsync("An error occured processing your authentication.");
+                   }
+               };
+           });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+
 var app = builder.Build();
-
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors(builder => builder
  .AllowAnyOrigin()
  .AllowAnyMethod()
  .AllowAnyHeader());
+IdentityModelEventSource.ShowPII = true;
 
 if (app.Environment.IsDevelopment())
 {

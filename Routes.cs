@@ -29,7 +29,7 @@ namespace SpellsRedApi.Routes
 
             _app.MapGet("/legacyspell/{repository}", GetLegacySpell);
 
-            _app.MapGet("/redspell/{repository}", GetRedSpells);
+            _app.MapGet("/redspell/{repository}", GetRedSpells).RequireAuthorization();;
 
             _app.MapGet("/spell/{repository}/{spell}", GetSpell);
 
@@ -146,23 +146,6 @@ namespace SpellsRedApi.Routes
             return Results.Json(results, _jsonOptions);
         }
 
-        IResult Login(string email, string pass)
-        {
-            if (email == "kris@test.com" && pass == "1234")
-            {
-                using (var store = new DataStore($"users.json"))
-                {
-                    var collection = store.GetCollection<User>();
-                    var result = collection.Find(c => c.Email == email).First();
-
-                    return Results.Json(result, _jsonOptions);
-                }
-            }
-
-            return Results.Json(false, _jsonOptions);
-        }
-
-        
         IResult AddRepoToUser()
         {
             return null;

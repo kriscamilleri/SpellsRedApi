@@ -1,0 +1,22 @@
+{
+    "user": [
+        {
+            "id": 21,
+            "Name": "Kris",
+            "Surname": "Camilleri",
+            "FacebookToken": "136c42cf2b2a405d968b69ed92fcf6d3",
+            "GoogleToken": "136c42cf2b2a405d968b69ed92fcf6d3",
+            "GithubToken": "136c42cf2b2a405d968b69ed92fcf6d3",
+            "DefaultView":{
+                "Type":"Repo",
+                "Id": 2176
+            },
+            "RepoIds": [12,14,21],
+            "SpellBookIds": [2,4,8],
+            "ViewSettinigs":{
+                "SortBy": "Level",
+                "SpellLayout":"Card"
+            }
+        }
+    ]
+}
