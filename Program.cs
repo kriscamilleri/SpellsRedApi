@@ -24,11 +24,11 @@ builder.Services.AddAuthentication(options =>
                o.Audience = configuration["Jwt:Audience"];
                o.Events = new JwtBearerEvents()
                {
-                //    OnTokenValidated = c =>
-                //    {
-                //        c.Success();
-                //        return c.Response.CompleteAsync();
-                //    },
+                   //    OnTokenValidated = c =>
+                   //    {
+                   //        c.Success();
+                   //        return c.Response.CompleteAsync();
+                   //    },
                    OnAuthenticationFailed = c =>
                    {
                        c.NoResult();
@@ -54,13 +54,13 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
+app.UseCors(c=> c.AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors(builder => builder
- .AllowAnyOrigin()
- .AllowAnyMethod()
- .AllowAnyHeader());
 IdentityModelEventSource.ShowPII = true;
 
 if (app.Environment.IsDevelopment())

@@ -6,9 +6,7 @@
         public string Email { get; set; } = "";
         public string Name { get; set; } = "";
         public string Surname { get; set; } = "";
-        public string FacebookToken { get; set; } = "";
-        public string GoogleToken { get; set; } = "";
-        public string GithubToken { get; set; } = "";
+        public string KeycloakId { get; set; } = "";
         public DefaultView? DefaultView { get; set; }
         public long[]? RepoIds { get; set; } 
         public long[]? SpellBookIds { get; set; } 
