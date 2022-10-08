@@ -12,7 +12,7 @@ namespace SpellsRedApi.Routes
     public class Routes : IApi
     {
 
-        public Routes(WebApplication _app, JsonSerializerOptions _jsonOptions, string repoPath) : base(_app, _jsonOptions, repoPath)
+        public Routes(ApiProperties properties) : base(properties)
         {
         }
 

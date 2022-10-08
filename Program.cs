@@ -47,7 +47,6 @@ var jsonOptions = new JsonSerializerOptions()
 {
     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    
 };
 
 jsonOptions.Converters.Add(new JsonStringEnumConverter());
@@ -77,7 +76,7 @@ if (app.Environment.IsDevelopment())
 };
 
 var apiProps = new ApiProperties(app, jsonOptions, configuration["RepositoryPath"]);
-new Routes(app, jsonOptions, configuration["RepositoryPath"]).SetRoutes();
-new UserApi(app, jsonOptions, configuration["RepositoryPath"]).SetRoutes();
+new Routes(apiProps).SetRoutes();
+new UserApi(apiProps).SetRoutes();
 
 app.Run();

@@ -7,8 +7,8 @@ namespace SpellsRedApi.Api
 {
     public class UserApi : IApi
     {
-        public UserApi(WebApplication app, JsonSerializerOptions jsonOptions, string repoPath)
-            : base(app, jsonOptions, repoPath) { }
+        public UserApi(ApiProperties properties)
+            : base(properties) { }
 
         IResult GetUser(int id)
         {
