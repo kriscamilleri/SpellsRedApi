@@ -5,19 +5,30 @@ namespace SpellsRedApi.Api
 {
 	public abstract class IApi
 	{
-
+        public IApi(ApiProperties properties)
+        {
+            _app = properties.App;
+            _jsonOptions = properties.JsonOptions;
+            _repoPath = properties.Path;
+        }
         protected WebApplication _app { get; set; }
         protected JsonSerializerOptions _jsonOptions;
         protected string _repoPath;
+        public abstract void SetRoutes();
+    }
 
-        public IApi(WebApplication app, JsonSerializerOptions jsonOptions, string repoPath)
+    public class ApiProperties 
+    {
+        public ApiProperties(WebApplication app, JsonSerializerOptions jsonOptions, string path)
         {
-            _app = app;
-            _jsonOptions = jsonOptions;
-            _repoPath = repoPath;
+            App = app;
+            Path = path;
+            JsonOptions = jsonOptions;
         }
 
-        public abstract void SetRoutes();
+        public WebApplication App {get;set;}
+        public JsonSerializerOptions JsonOptions {get;set;} 
+        public string Path {get;set;}
     }
 }
 

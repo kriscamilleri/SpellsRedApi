@@ -118,10 +118,9 @@ namespace SpellsRedApi.Routes
             return Results.Json(results, _jsonOptions);
         }
 
-        IResult GetRedSpells(string repository)
+        IResult GetRedSpells(string repository, HttpContext context)
         {
             string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-
             RedSpell[] results = Array.Empty<RedSpell>();
             using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
             {
