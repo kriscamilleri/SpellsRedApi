@@ -29,7 +29,7 @@ namespace SpellsRedApi.Routes
 
             _app.MapGet("/legacyspell/{repository}", GetLegacySpell);
 
-            _app.MapGet("/redspell/{repository}", GetRedSpells).RequireAuthorization();
+            _app.MapGet("/redspell/{repository}", GetRedSpells);//.RequireAuthorization();
 
             _app.MapGet("/spell/{repository}/{spell}", GetSpell);
 

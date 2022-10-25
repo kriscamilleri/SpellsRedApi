@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.IdentityModel.Logging;
+using Newtonsoft.Json;
 using SpellsRedApi.Api;
 using SpellsRedApi.Routes;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -22,7 +24,7 @@ var jwtOptions = new Action<JwtBearerOptions>(o =>
 {
     o.Authority = configuration["Jwt:Authority"];
     o.Audience = configuration["Jwt:Audience"];
-    
+
     if (builder.Environment.IsDevelopment())
     {
         o.RequireHttpsMetadata = false;
@@ -51,17 +53,18 @@ var jsonOptions = new JsonSerializerOptions()
 
 jsonOptions.Converters.Add(new JsonStringEnumConverter());
 
-builder.Services.AddAuthentication(authOptions).AddJwtBearer(jwtOptions);
+//builder.Services.AddAuthentication(authOptions).AddJwtBearer(jwtOptions);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
+builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
 var app = builder.Build();
 app.UseCors(corsOptions);
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication(); //uncomment me
+//app.UseAuthorization();  //uncomment me
 
 if (app.Environment.IsDevelopment())
 {
@@ -71,7 +74,7 @@ if (app.Environment.IsDevelopment())
         o.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         o.RoutePrefix = string.Empty;
     });
-    
+
     IdentityModelEventSource.ShowPII = true;
 };
 
@@ -80,3 +83,30 @@ new Routes(apiProps).SetRoutes();
 new UserApi(apiProps).SetRoutes();
 
 app.Run();
+
+
+
+public class ClaimsTransformer : IClaimsTransformation
+{
+    public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
+    {
+        ClaimsIdentity claimsIdentity = (ClaimsIdentity)principal.Identity;
+
+        // flatten realm_access because Microsoft identity model doesn't support nested claims
+        // by map it tow Microsoft identity model, because automatic JWT bearer token mapping already processed here
+        if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "realm_access"))
+        {
+            var realmAccessClaim = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access");
+            var realmAccessAsDict = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(realmAccessClaim.Value);
+            if (realmAccessAsDict["roles"] != null)
+            {
+                foreach (var role in realmAccessAsDict["roles"])
+                {
+                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
+            }
+        }
+
+        return Task.FromResult(principal);
+    }
+}
