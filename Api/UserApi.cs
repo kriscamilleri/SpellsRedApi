@@ -10,6 +10,18 @@ namespace SpellsRedApi.Api
         public UserApi(ApiProperties properties)
             : base(properties) { }
 
+        //On frontend, if is authenticated but no user info in store, send GET (if no result send CREATE USER request) and save in store
+        //User can update
+        /// spells list
+        /// name, surname
+        /// default view
+        /// view settings 
+
+        //Automatically Create SRUser whenever logged in user makes an elevated request 
+        //Elevated Request: Create repo, 
+
+
+
         IResult GetUser(int id)
         {
             User result = new User();
@@ -19,6 +31,7 @@ namespace SpellsRedApi.Api
             }
             return Results.Json(result, _jsonOptions);
         }
+
 
         public override void SetRoutes()
         {

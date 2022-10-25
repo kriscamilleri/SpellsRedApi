@@ -76,7 +76,10 @@ if (app.Environment.IsDevelopment())
 };
 
 var apiProps = new ApiProperties(app, jsonOptions, configuration["RepositoryPath"]);
-new Routes(apiProps).SetRoutes();
+new RedSpellApi(apiProps).SetRoutes();
+new GiddySpellApi(apiProps).SetRoutes();
+new LegacySpellApi(apiProps).SetRoutes();
+new RepositoryApi(apiProps).SetRoutes();
 new UserApi(apiProps).SetRoutes();
 
 app.Run();
