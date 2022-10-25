@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace SpellsRedApi.Api
@@ -24,6 +25,7 @@ namespace SpellsRedApi.Api
             App = app;
             Path = path;
             JsonOptions = jsonOptions;
+            
         }
 
         public WebApplication App {get;set;}

@@ -4,8 +4,6 @@ using System.Text.RegularExpressions;
 using JsonFlatFileDataStore;
 using SpellsRedApi.Models;
 using SpellsRedApi.Models.Giddy;
-using SpellsRedApi.Models.Red;
-
 namespace SpellsRedApi.Api
 {
     public class RedSpellApi : IApi
@@ -13,22 +11,39 @@ namespace SpellsRedApi.Api
         public RedSpellApi(ApiProperties properties)
             : base(properties) { }
 
-
-        IResult GetLegacySpellAsRedSpell(string repository, HttpContext context)
+        IResult GetUser(int id)
         {
-            string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-            RedSpell[] results = Array.Empty<RedSpell>();
-            using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
+            RedSpell result = new RedSpell();
+
+            //TODO: list all json files, without extension
+            var repoList = new string[] { "PHB" };
+            foreach(var repoFileName in repoList)
             {
-                var spells = store.GetCollection<Spell>().AsQueryable();
-                results = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
+                RedSpell[] redSpells = Array.Empty<RedSpell>();
+                using (var store = GetDataStore(repoFileName, false))
+                {
+                    var spells = store.GetCollection<Spell>().AsQueryable();
+                    redSpells = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
+                }
+                using (var store = GetDataStore(repoFileName, true))
+                {
+                    store.GetCollection<RedSpell>().InsertMany(redSpells);
+                }
             }
-            return Results.Json(results, _jsonOptions);
+
+            return Results.Json(result, _jsonOptions);
         }
+
+        //Import and generate Red Repository
+
+        //Import Giddy Spell
+
+        //Generate Red Repos for all giddy spells
+
 
         public override void SetRoutes()
         {
-            _app.MapGet("/redspell/{repository}", GetLegacySpellAsRedSpell).RequireAuthorization();
+            _app.MapGet("/user/{id}", GetUser).RequireAuthorization();
         }
 
     }
