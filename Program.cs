@@ -22,8 +22,8 @@ var authOptions = new Action<AuthenticationOptions>(c =>
 
 var jwtOptions = new Action<JwtBearerOptions>(o =>
 {
-    o.Authority = configuration["Jwt:Authority"];
-    o.Audience = configuration["Jwt:Audience"];
+    // o.Authority = configuration["Jwt:Authority"];
+    // o.Audience = configuration["Jwt:Audience"];
 
     if (builder.Environment.IsDevelopment())
     {
@@ -53,18 +53,18 @@ var jsonOptions = new JsonSerializerOptions()
 
 jsonOptions.Converters.Add(new JsonStringEnumConverter());
 
-//builder.Services.AddAuthentication(authOptions).AddJwtBearer(jwtOptions);
+builder.Services.AddAuthentication(authOptions);//.AddJwtBearer(jwtOptions);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
 var app = builder.Build();
 app.UseCors(corsOptions);
 app.UseHttpsRedirection();
-//app.UseAuthentication(); //uncomment me
-//app.UseAuthorization();  //uncomment me
+app.UseAuthentication(); //uncomment me
+app.UseAuthorization();  //uncomment me
 
 if (app.Environment.IsDevelopment())
 {

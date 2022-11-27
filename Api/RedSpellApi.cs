@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using JsonFlatFileDataStore;
 using SpellsRedApi.Models;
 using SpellsRedApi.Models.Giddy;
+using SpellsRedApi.Models.Red;
 namespace SpellsRedApi.Api
 {
     public class RedSpellApi : IApi
@@ -11,29 +12,57 @@ namespace SpellsRedApi.Api
         public RedSpellApi(ApiProperties properties)
             : base(properties) { }
 
-        IResult GetUser(int id)
+        private DataStore GetDataStore(string filename, bool isRedSpell = false)
         {
-            RedSpell result = new RedSpell();
+            if (isRedSpell)//TODO: replace me with specifier for folder rather than hardcoded only for redspell
+            {
+                return new DataStore($"Repositories/Red/{filename}.json"); //TODO: Clean filenames
+            }
+            return new DataStore($"Repositories/{filename}.json");
+        }
 
+        IResult GetSpells(string repository)
+        {
+            RedSpell[] redSpells = Array.Empty<RedSpell>();
             //TODO: list all json files, without extension
             var repoList = new string[] { "PHB" };
-            foreach(var repoFileName in repoList)
+            foreach (var repoFileName in repoList)
             {
-                RedSpell[] redSpells = Array.Empty<RedSpell>();
-                using (var store = GetDataStore(repoFileName, false))
-                {
-                    var spells = store.GetCollection<Spell>().AsQueryable();
-                    redSpells = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
-                }
                 using (var store = GetDataStore(repoFileName, true))
                 {
-                    store.GetCollection<RedSpell>().InsertMany(redSpells);
+                    redSpells = store.GetCollection<RedSpell>().AsQueryable().ToArray();
                 }
             }
 
-            return Results.Json(result, _jsonOptions);
+            return Results.Json(redSpells, _jsonOptions);
         }
 
+        IResult ConvertFromGiddySpell(string repository)
+        {
+            RedSpell[] redSpells = Array.Empty<RedSpell>();
+            using (var store = GetDataStore(repository))
+            {
+                var spells = store.GetCollection<Spell>().AsQueryable();
+                redSpells = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
+            }
+            using (var store = GetDataStore(repository, true))
+            {
+                var success = store.InsertItem<RedSpell[]>("RedSpell", redSpells);
+            }
+
+            return Results.Json(redSpells.Count(), _jsonOptions);
+        }
+
+
+        IResult GetRedSpells(string repository, HttpContext context)
+        {
+            string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
+            RedSpell[] results = Array.Empty<RedSpell>();
+            using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
+            {
+            }
+            return Results.Json(results, _jsonOptions);
+        }
         //Import and generate Red Repository
 
         //Import Giddy Spell
@@ -43,7 +72,8 @@ namespace SpellsRedApi.Api
 
         public override void SetRoutes()
         {
-            _app.MapGet("/user/{id}", GetUser).RequireAuthorization();
+            _app.MapGet("/redspell/giddyconvert/{repository}", ConvertFromGiddySpell);//.RequireAuthorization();
+            _app.MapGet("/redspell/{repository}", GetSpells);
         }
 
     }

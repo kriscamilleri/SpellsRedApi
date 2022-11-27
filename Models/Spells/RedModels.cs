@@ -31,16 +31,20 @@ namespace SpellsRedApi.Models.Red
             public DescriptionTable(List<string> headers, List<List<string>> rows)
             {
                 Headers = headers;
-                for(var i = 0; i < rows[0].Count(); i++)
+                if (rows.Count() > 0)
                 {
-                    var list = new List<string>();
-                    for(var hi = 0; hi < headers.Count(); hi++)
+                    for (var i = 0; i < rows[0].Count() - 1; i++)
                     {
-                        list.Add(rows[hi][i]);
-                        
+                        var list = new List<string>();
+                        for (var hi = 0; hi < headers.Count() - 1; hi++)
+                        {
+                            list.Add(rows[hi][i]);
+
+                        }
+                        Rows.Add(list);
                     }
-                    Rows.Add(list);
                 }
+
             }
         }
 
@@ -181,7 +185,7 @@ namespace SpellsRedApi.Models.Red
         private void setHigher(Spell spell)
         {
 
-            if (spell.EntriesHigherLevel != null && spell.EntriesHigherLevel.Any() && spell.EntriesHigherLevel.Any(c=> c != null))
+            if (spell.EntriesHigherLevel != null && spell.EntriesHigherLevel.Any() && spell.EntriesHigherLevel.Any(c => c != null))
             {
                 this.Higher = new Description()
                 {
@@ -208,7 +212,7 @@ namespace SpellsRedApi.Models.Red
                     .Where(c => c.PurpleEntry != null && c.PurpleEntry.Name != null)
                     .Select(c => c.PurpleEntry.Name)
                     .ToList();
-           
+
             DescriptionList? list = null;
             if (listRows.Count > 0)
             {
