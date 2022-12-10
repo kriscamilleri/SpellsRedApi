@@ -31,12 +31,12 @@ namespace SpellsRedApi.Api
 
 
 
-        IResult GetUser(int id)
+        IResult GetUser(string sid)
         {
             var result = new User();
             using (var store = GetDataStore())
             {
-                result = store.GetCollection<User>().Find(c => c.Id == id).First();
+                result = store.GetCollection<User>().Find(c => c.KeycloakId == sid).FirstOrDefault();
             }
             return Results.Json(result, _jsonOptions);
         }
@@ -73,12 +73,12 @@ namespace SpellsRedApi.Api
             return Results.Json(result, _jsonOptions);
         }
 
-        IResult RemoveRepo(User user)
+        IResult DeleteUser(User user)
         {
             bool result;
             using (var store = GetDataStore())
             {
-                result = store.GetCollection<User>().UpdateOne(c => c.Id == user.Id, user);
+                result = store.GetCollection<User>().DeleteOne(c => c.Id == user.Id);
             }
             return Results.Json(result, _jsonOptions);
         }
@@ -86,7 +86,7 @@ namespace SpellsRedApi.Api
 
         public override void SetRoutes()
         {
-            _app.MapGet("/user/{id}", GetUser);//.RequireAuthorization();
+            _app.MapGet("/user/{sid}", GetUser);//.RequireAuthorization();
             _app.MapGet("/user/", GetUsers);//.RequireAuthorization();
             _app.MapPut("/user/", CreateUser);//.RequireAuthorization();
             _app.MapPost("/user/", UpdateUser);//.RequireAuthorization();

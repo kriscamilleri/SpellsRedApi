@@ -29,7 +29,6 @@ namespace SpellsRedApi.Api
             string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
 
             Spell? results = new Spell();
-            var uploadsPath = _repoPath;
 
             using (var store = new DataStore($"Repositories\\{cleanRepository}.json"))
             {

@@ -37,32 +37,6 @@ namespace SpellsRedApi.Api
             return Results.Json(redSpells, _jsonOptions);
         }
 
-        IResult ConvertFromGiddySpell(string repository)
-        {
-            RedSpell[] redSpells = Array.Empty<RedSpell>();
-            using (var store = GetDataStore(repository))
-            {
-                var spells = store.GetCollection<Spell>().AsQueryable();
-                redSpells = spells.Select((spell, i) => new RedSpell(spell, i)).ToArray();
-            }
-            using (var store = GetDataStore(repository, true))
-            {
-                var success = store.InsertItem<RedSpell[]>("RedSpell", redSpells);
-            }
-
-            return Results.Json(redSpells.Count(), _jsonOptions);
-        }
-
-
-        IResult GetRedSpells(string repository, HttpContext context)
-        {
-            string cleanRepository = Regex.Replace(repository, "[^A-Za-z0-9]", "");
-            RedSpell[] results = Array.Empty<RedSpell>();
-            using (var store = new DataStore($"Repositories/{cleanRepository}.json"))
-            {
-            }
-            return Results.Json(results, _jsonOptions);
-        }
         //Import and generate Red Repository
 
         //Import Giddy Spell
@@ -72,7 +46,7 @@ namespace SpellsRedApi.Api
 
         public override void SetRoutes()
         {
-            _app.MapGet("/redspell/giddyconvert/{repository}", ConvertFromGiddySpell);//.RequireAuthorization();
+            // _app.MapGet("/redspell/giddyconvert/{repository}", ConvertFromGiddySpell);//.RequireAuthorization();
             _app.MapGet("/redspell/{repository}", GetSpells);
         }
 
