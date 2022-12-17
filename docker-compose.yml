@@ -2,36 +2,30 @@ version: '3'
 
 volumes:
   postgres_data:
-    driver: local
+      driver: local
 
 services:
   postgres:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
-    ports:
-      - 127.0.0.1:5432:5432
-    network_mode: host
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: REPLACEME
+      hostname: "pgdb" # using this hostname explicitly avoids worrying dealing with localhost inconsistencies when moving between different operating systems
+      # ports: # uncomment this to be able to access the database from the host system
+      # - 127.0.0.1:5432:5432
 
   keycloak:
-    image: bitnami/keycloak:latest
-    environment:
-      KEYCLOAK_DATABASE_HOST: localhost
-      KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: keycloak
-      KEYCLOAK_DATABASE_PASSWORD: password
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: 1234
-      KEYCLOAK_CREATE_ADMIN_USER: true
-      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-      # JDBC_PARAMS: "ssl=true"
-    ports:
-      - 127.0.0.1:8080:8080
+      image: bitnami/keycloak:latest
+      environment:
+        KEYCLOAK_DATABASE_HOST: pgdb
+        KEYCLOAK_DATABASE_NAME: keycloak
+        KEYCLOAK_DATABASE_USER: keycloak
+        KEYCLOAK_DATABASE_PASSWORD: REPLACEME
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: REPLACEMETOO
+      ports:
+      - 127.0.0.1:8080:8080 # prepending 127.0.0.1 prevents non-obvious interactions with host firewall. 
       - 127.0.0.1:8443:8443
-    depends_on:
-      - postgres
-    network_mode: host
