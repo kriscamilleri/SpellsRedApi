@@ -1,0 +1,1080 @@
+{
+  "redSpell": [
+    {
+      "id": 0,
+      "name": "Ashardalon's Stride",
+      "page": 19,
+      "level": 3,
+      "school": "Transmutation",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Artificer",
+          "source": "TCE",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Artificer"
+        },
+        {
+          "baseClass": "Ranger",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Ranger"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "self",
+          "amount": null
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": false
+      },
+      "description": {
+        "paragraph": [
+          "The billowing flames of a dragon blast from your feet, granting you explosive speed. For the duration, your speed increases by 20 feet and moving doesn't provoke opportunity attacks.",
+          "When you move within 5 feet of a creature or an object that isn't being worn or carried, it takes {@damage 1d6} fire damage from your trail of heat. A creature or object can take this damage only once during a turn."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 4th level or higher, increase your speed by 5 feet for each spell slot level above 3rd. The spell deals an additional {@damage 1d6} fire damage for each slot level above 3rd."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 1,
+      "name": "Draconic Transformation",
+      "page": 19,
+      "level": 7,
+      "school": "Transmutation",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Druid",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Druid"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "cone",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "With a roar, you draw on the magic of dragons to transform yourself, taking on draconic features. You gain the following benefits until the spell ends:",
+          null
+        ],
+        "table": null,
+        "list": {
+          "headers": [
+            "Blindsight.",
+            "Breath Weapon.",
+            "Wings."
+          ],
+          "rows": [
+            "You have {@sense blindsight} with a range of 30 feet. Within that range, you can effectively see anything that isn't behind total cover, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature, unless the creature successfully hides from you.",
+            "When you cast this spell, and as a bonus action on subsequent turns for the duration, you can exhale shimmering energy in a 60-foot cone. Each creature in that area must make a Dexterity saving throw, taking {@damage 6d8} force damage on a failed save, or half as much damage on a successful one.",
+            "Incorporeal wings sprout from your back, giving you a flying speed of 60 feet."
+          ]
+        }
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 2,
+      "name": "Fizban's Platinum Shield",
+      "page": 20,
+      "level": 6,
+      "school": "Abjuration",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You create a field of silvery light that surrounds a creature of your choice within range (you can choose yourself). The field sheds dim light out to 5 feet. While surrounded by the field, a creature gains the following benefits:",
+          null
+        ],
+        "table": null,
+        "list": {
+          "headers": [
+            "Cover.",
+            "Damage Resistance.",
+            "Evasion."
+          ],
+          "rows": [
+            "The creature has half cover.",
+            "The creature has resistance to acid, cold, fire, lightning, and poison damage.",
+            "If the creature is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the creature instead takes no damage if it succeeds on the saving throw, and only half damage if it fails., As a bonus action on subsequent turns, you can move the field to another creature within 60 feet of the field."
+          ]
+        }
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 3,
+      "name": "Nathair's Mischief",
+      "page": 20,
+      "level": 2,
+      "school": "Illusion",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Bard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Bard"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": "a piece of crust from an apple pie",
+        "isVerbal": false,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You fill a 20-foot cube you can see within range with fey and draconic magic. Roll on the Mischievous Surge table to determine the magical effect produced, and roll again at the start of each of your turns until the spell ends. You can move the cube up to 10 feet before you roll.",
+          ""
+        ],
+        "table": {
+          "headers": [
+            "d4",
+            "Effect"
+          ],
+          "rows": [
+            [
+              "1"
+            ],
+            [
+              "2"
+            ],
+            [
+              "3"
+            ]
+          ]
+        },
+        "list": null
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 4,
+      "name": "Raulothim's Psychic Lance",
+      "page": 21,
+      "level": 4,
+      "school": "Enchantment",
+      "isRitual": null,
+      "isConcentration": null,
+      "classes": [
+        {
+          "baseClass": "Bard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Bard"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Warlock",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Warlock"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 120
+        }
+      },
+      "duration": {
+        "type": "instant",
+        "amount": null,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": false,
+        "isMaterial": false
+      },
+      "description": {
+        "paragraph": [
+          "You unleash a shimmering lance of psychic power from your forehead at a creature that you can see within range. Alternatively, you can utter a creature's name. If the named target is within range, it becomes the spell's target even if you can't see it. If the named target isn't within range, the lance dissipates without effect.",
+          "The target must make an Intelligence saving throw. On a failed save, the target takes {@damage 7d6} psychic damage and is {@condition incapacitated} until the start of your next turn. On a successful save, the creature takes half as much damage and isn't {@condition incapacitated}."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 5th level or higher, the damage increases by {@dice 1d6} for each slot level above 4th."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 5,
+      "name": "Rime's Binding Ice",
+      "page": 21,
+      "level": 2,
+      "school": "Evocation",
+      "isRitual": null,
+      "isConcentration": null,
+      "classes": [
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "cone",
+        "distance": {
+          "unit": "feet",
+          "amount": 30
+        }
+      },
+      "duration": {
+        "type": "instant",
+        "amount": null,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": "a vial of meltwater",
+        "isVerbal": false,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "A burst of cold energy emanates from you in a 30-foot cone. Each creature in that area must make a Constitution saving throw. On a failed save, a creature takes {@damage 3d8} cold damage and is hindered by ice formations for 1 minute, or until it or another creature within reach of it uses an action to break away the ice. A creature hindered by ice has its speed reduced to 0. On a successful save, a creature takes half as much damage and isn't hindered by ice."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 3rd level or higher, increase the cold damage by {@dice 1d8} for each slot level above 2nd."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 6,
+      "name": "Summon Draconic Spirit",
+      "page": 21,
+      "level": 5,
+      "school": "Conjuration",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Druid",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Druid"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "hour",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You call forth a {@creature draconic spirit|FTD}. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Draconic Spirit stat block. When you cast this spell, choose a family of dragon: chromatic, gem, or metallic. The creature resembles a dragon of the chosen family, which determines certain traits in its stat block. The creature disappears when it drops to 0 hit points or when the spell ends.",
+          "The creature is an ally to you and your companions. In combat, the creature shares your initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the {@action Dodge} action and uses its move to avoid danger."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 6th level or higher, use the higher level wherever the spell's level appears in the stat block."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    }
+  ],
+  "redSpell": [
+    {
+      "id": 0,
+      "name": "Ashardalon's Stride",
+      "page": 19,
+      "level": 3,
+      "school": "Transmutation",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Artificer",
+          "source": "TCE",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Artificer"
+        },
+        {
+          "baseClass": "Ranger",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Ranger"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "self",
+          "amount": null
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": false
+      },
+      "description": {
+        "paragraph": [
+          "The billowing flames of a dragon blast from your feet, granting you explosive speed. For the duration, your speed increases by 20 feet and moving doesn't provoke opportunity attacks.",
+          "When you move within 5 feet of a creature or an object that isn't being worn or carried, it takes {@damage 1d6} fire damage from your trail of heat. A creature or object can take this damage only once during a turn."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 4th level or higher, increase your speed by 5 feet for each spell slot level above 3rd. The spell deals an additional {@damage 1d6} fire damage for each slot level above 3rd."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 1,
+      "name": "Draconic Transformation",
+      "page": 19,
+      "level": 7,
+      "school": "Transmutation",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Druid",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Druid"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "cone",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "With a roar, you draw on the magic of dragons to transform yourself, taking on draconic features. You gain the following benefits until the spell ends:",
+          null
+        ],
+        "table": null,
+        "list": {
+          "headers": [
+            "Blindsight.",
+            "Breath Weapon.",
+            "Wings."
+          ],
+          "rows": [
+            "You have {@sense blindsight} with a range of 30 feet. Within that range, you can effectively see anything that isn't behind total cover, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature, unless the creature successfully hides from you.",
+            "When you cast this spell, and as a bonus action on subsequent turns for the duration, you can exhale shimmering energy in a 60-foot cone. Each creature in that area must make a Dexterity saving throw, taking {@damage 6d8} force damage on a failed save, or half as much damage on a successful one.",
+            "Incorporeal wings sprout from your back, giving you a flying speed of 60 feet."
+          ]
+        }
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 2,
+      "name": "Fizban's Platinum Shield",
+      "page": 20,
+      "level": 6,
+      "school": "Abjuration",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "bonus",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You create a field of silvery light that surrounds a creature of your choice within range (you can choose yourself). The field sheds dim light out to 5 feet. While surrounded by the field, a creature gains the following benefits:",
+          null
+        ],
+        "table": null,
+        "list": {
+          "headers": [
+            "Cover.",
+            "Damage Resistance.",
+            "Evasion."
+          ],
+          "rows": [
+            "The creature has half cover.",
+            "The creature has resistance to acid, cold, fire, lightning, and poison damage.",
+            "If the creature is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the creature instead takes no damage if it succeeds on the saving throw, and only half damage if it fails., As a bonus action on subsequent turns, you can move the field to another creature within 60 feet of the field."
+          ]
+        }
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 3,
+      "name": "Nathair's Mischief",
+      "page": 20,
+      "level": 2,
+      "school": "Illusion",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Bard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Bard"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "minute",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": "a piece of crust from an apple pie",
+        "isVerbal": false,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You fill a 20-foot cube you can see within range with fey and draconic magic. Roll on the Mischievous Surge table to determine the magical effect produced, and roll again at the start of each of your turns until the spell ends. You can move the cube up to 10 feet before you roll.",
+          ""
+        ],
+        "table": {
+          "headers": [
+            "d4",
+            "Effect"
+          ],
+          "rows": [
+            [
+              "1"
+            ],
+            [
+              "2"
+            ],
+            [
+              "3"
+            ]
+          ]
+        },
+        "list": null
+      },
+      "higher": null,
+      "source": "FTD"
+    },
+    {
+      "id": 4,
+      "name": "Raulothim's Psychic Lance",
+      "page": 21,
+      "level": 4,
+      "school": "Enchantment",
+      "isRitual": null,
+      "isConcentration": null,
+      "classes": [
+        {
+          "baseClass": "Bard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Bard"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Warlock",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Warlock"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 120
+        }
+      },
+      "duration": {
+        "type": "instant",
+        "amount": null,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": false,
+        "isMaterial": false
+      },
+      "description": {
+        "paragraph": [
+          "You unleash a shimmering lance of psychic power from your forehead at a creature that you can see within range. Alternatively, you can utter a creature's name. If the named target is within range, it becomes the spell's target even if you can't see it. If the named target isn't within range, the lance dissipates without effect.",
+          "The target must make an Intelligence saving throw. On a failed save, the target takes {@damage 7d6} psychic damage and is {@condition incapacitated} until the start of your next turn. On a successful save, the creature takes half as much damage and isn't {@condition incapacitated}."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 5th level or higher, the damage increases by {@dice 1d6} for each slot level above 4th."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 5,
+      "name": "Rime's Binding Ice",
+      "page": 21,
+      "level": 2,
+      "school": "Evocation",
+      "isRitual": null,
+      "isConcentration": null,
+      "classes": [
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "cone",
+        "distance": {
+          "unit": "feet",
+          "amount": 30
+        }
+      },
+      "duration": {
+        "type": "instant",
+        "amount": null,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": "a vial of meltwater",
+        "isVerbal": false,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "A burst of cold energy emanates from you in a 30-foot cone. Each creature in that area must make a Constitution saving throw. On a failed save, a creature takes {@damage 3d8} cold damage and is hindered by ice formations for 1 minute, or until it or another creature within reach of it uses an action to break away the ice. A creature hindered by ice has its speed reduced to 0. On a successful save, a creature takes half as much damage and isn't hindered by ice."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 3rd level or higher, increase the cold damage by {@dice 1d8} for each slot level above 2nd."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    },
+    {
+      "id": 6,
+      "name": "Summon Draconic Spirit",
+      "page": 21,
+      "level": 5,
+      "school": "Conjuration",
+      "isRitual": null,
+      "isConcentration": true,
+      "classes": [
+        {
+          "baseClass": "Druid",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Druid"
+        },
+        {
+          "baseClass": "Sorcerer",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Sorcerer"
+        },
+        {
+          "baseClass": "Wizard",
+          "source": "PHB",
+          "classType": 0,
+          "variantSource": null,
+          "subClass": null,
+          "displayName": "Wizard"
+        }
+      ],
+      "range": {
+        "type": "point",
+        "distance": {
+          "unit": "feet",
+          "amount": 60
+        }
+      },
+      "duration": {
+        "type": "hour",
+        "amount": 1,
+        "ends": null
+      },
+      "casting": {
+        "unit": "action",
+        "amount": 1,
+        "condition": null
+      },
+      "components": {
+        "material": null,
+        "isVerbal": true,
+        "isSomatic": true,
+        "isMaterial": true
+      },
+      "description": {
+        "paragraph": [
+          "You call forth a {@creature draconic spirit|FTD}. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Draconic Spirit stat block. When you cast this spell, choose a family of dragon: chromatic, gem, or metallic. The creature resembles a dragon of the chosen family, which determines certain traits in its stat block. The creature disappears when it drops to 0 hit points or when the spell ends.",
+          "The creature is an ally to you and your companions. In combat, the creature shares your initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the {@action Dodge} action and uses its move to avoid danger."
+        ],
+        "table": null,
+        "list": null
+      },
+      "higher": {
+        "paragraph": [
+          "When you cast this spell using a spell slot of 6th level or higher, use the higher level wherever the spell's level appears in the stat block."
+        ],
+        "table": null,
+        "list": null
+      },
+      "source": "FTD"
+    }
+  ]
+}

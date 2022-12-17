@@ -38,7 +38,7 @@ namespace SpellsRedApi.Models.Red
                         var list = new List<string>();
                         for (var hi = 0; hi < headers.Count() - 1; hi++)
                         {
-                            list.Add(rows[hi][i]);
+                            list.Add(rows[i][hi]);
 
                         }
                         Rows.Add(list);
@@ -169,7 +169,7 @@ namespace SpellsRedApi.Models.Red
             this.Name = spell.Name;
             this.Page = (int)spell.Page;
             this.IsRitual = spell.Meta?.Ritual;
-            this.IsConcentration = spell.Duration[0].Concentration;
+            this.IsConcentration = spell.Duration.Count() <= 0 ? false : spell?.Duration[0].Concentration;
             this.Source = spell.Source;
             setClasses(spell);
             setSchool(spell);

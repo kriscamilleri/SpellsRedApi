@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
     IdentityModelEventSource.ShowPII = true;
 };
 
-var apiProps = new ApiProperties(app, jsonOptions, configuration["RepositoryPath"]);
+var apiProps = new ApiProperties(app, jsonOptions, configuration);
 new RedSpellApi(apiProps).SetRoutes();
 new GiddySpellApi(apiProps).SetRoutes();
 new LegacySpellApi(apiProps).SetRoutes();

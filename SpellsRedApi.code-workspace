@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Dracula At Night",
+		"workbench.colorTheme": "Visual Studio 2019 Dark",
 		"workbench.editor.decorations.colors": true
 	}
 }

@@ -14,7 +14,7 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     ports:
-      - 5432:5432
+      - 127.0.0.1:5432:5432
     network_mode: host
 
   keycloak:
@@ -30,8 +30,8 @@ services:
       # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
       # JDBC_PARAMS: "ssl=true"
     ports:
-      - 8080:8080
-      - 8443:8443
+      - 127.0.0.1:8080:8080
+      - 127.0.0.1:8443:8443
     depends_on:
       - postgres
     network_mode: host
